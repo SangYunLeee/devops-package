@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: sororiri/jenkins:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jenkins-server
+    privileged: true
+    user: root
+    restart: always
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /Users/mac/.docker/run/docker.sock:/var/run/docker.sock
+    # - /var/run/docker.sock:/var/run/docker.sock (docker context ls 를 통해 어떤 경로를 쓸지 확인한다.)
