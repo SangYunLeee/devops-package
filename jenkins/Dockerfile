@@ -19,6 +19,15 @@ RUN apt-get -y install sshpass
 #---- locale
 RUN apt-get install -y locales git \
     && localedef -f UTF-8 -i ko_KR ko_KR.UTF-8
+
+#---- yq
+RUN curl -fsSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq \
+    && chmod +x /usr/local/bin/yq
+
+#---- argocd
+RUN curl -fsSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 \
+    && chmod +x /usr/local/bin/argocd
+
 ENV LC_ALL ko_KR.UTF-8
 
 USER jenkins

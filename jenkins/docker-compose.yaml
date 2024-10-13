@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   jenkins:
-    image: sororiri/jenkins:0.0.1
+    image: sororiri/jenkins:0.0.3
     build:
       context: .
       dockerfile: Dockerfile
