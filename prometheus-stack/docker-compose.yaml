@@ -43,3 +43,10 @@ services:
       - 9000:3000
     depends_on:
       - prometheus
+
+  # https://github.com/aussiearef/ShoeHubV2
+  shoehub-exporter:
+    image: aussiearef/shoehub
+    container_name: test-server
+    ports:
+      - 8000:8080
