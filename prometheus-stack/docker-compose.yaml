@@ -32,6 +32,7 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
 
+  # https://github.com/Einsteinish/Docker-Compose-Prometheus-and-Grafana
   grafana:
     build:
       context: ./grafana
