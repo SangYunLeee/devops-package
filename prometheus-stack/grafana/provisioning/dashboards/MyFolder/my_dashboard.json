@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -37,8 +37,8 @@
     {
       "datasource": {
         "default": true,
-        "uid": "1111",
-        "type": "prometheus"
+        "type": "prometheus",
+        "uid": "1111"
       },
       "fieldConfig": {
         "defaults": {
@@ -62,7 +62,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "smooth",
+            "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -75,20 +75,20 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "line+area"
+              "mode": "off"
             }
           },
           "mappings": [],
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "transparent",
-                "value": 5
+                "color": "red",
+                "value": 80
               }
             ]
           }
@@ -101,7 +101,7 @@
         "x": 0,
         "y": 1
       },
-      "id": 8,
+      "id": 9,
       "options": {
         "legend": {
           "calcs": [],
@@ -114,7 +114,6 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -122,40 +121,14 @@
             "uid": "1111"
           },
           "editorMode": "code",
-          "expr": "sum(shoehub_payments{CountryCode=\"$country\", PaymentMethod=\"Card\"} ) / sum(shoehub_payments{CountryCode=\"$country\"} ) * 100",
+          "expr": "shoehub_payments{PaymentMethod=\"Card\"}",
           "instant": false,
-          "legendFormat": "Card",
+          "legendFormat": "{{CountryCode}}",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "1111"
-          },
-          "editorMode": "code",
-          "expr": "sum(shoehub_payments{CountryCode=\"$country\", PaymentMethod=\"Cash\"} ) / sum(shoehub_payments{CountryCode=\"$country\"} ) * 100",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Cash",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "1111"
-          },
-          "editorMode": "code",
-          "expr": "sum(shoehub_payments{CountryCode=\"$country\", PaymentMethod=\"Paypal\"} ) / sum(shoehub_payments{CountryCode=\"$country\"} ) * 100",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "PayPal",
-          "range": true,
-          "refId": "C"
         }
       ],
-      "title": "$country 5퍼센트 이하 확인용",
+      "title": "$paymentMethod 사용량 분석",
       "type": "timeseries"
     },
     {
@@ -242,7 +215,11 @@
       "type": "piechart"
     },
     {
-      "datasource": "Prometheus",
+      "datasource": {
+        "default": true,
+        "type": "prometheus",
+        "uid": "1111"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -265,7 +242,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -278,20 +255,20 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "line+area"
             }
           },
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "transparent",
+                "value": 5
               }
             ]
           }
@@ -304,7 +281,7 @@
         "x": 0,
         "y": 9
       },
-      "id": 3,
+      "id": 8,
       "options": {
         "legend": {
           "calcs": [],
@@ -317,23 +294,19 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "1111"
           },
-          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "rate(shoehub_sales{ShoeType=~\"HighHeels|Boots|Loafers\"}[5m])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
+          "expr": "sum(shoehub_payments{CountryCode=\"$country\", PaymentMethod=\"Card\"} ) / sum(shoehub_payments{CountryCode=\"$country\"} ) * 100",
           "instant": false,
-          "legendFormat": "{{ShoeType}}",
+          "legendFormat": "Card",
           "range": true,
-          "refId": "B",
-          "useBackend": false
+          "refId": "A"
         },
         {
           "datasource": {
@@ -341,31 +314,28 @@
             "uid": "1111"
           },
           "editorMode": "code",
-          "expr": "sum(rate(shoehub_sales{ShoeType=~\"Boots|HighHeels\"}[5m])) by (instance, job)",
+          "expr": "sum(shoehub_payments{CountryCode=\"$country\", PaymentMethod=\"Cash\"} ) / sum(shoehub_payments{CountryCode=\"$country\"} ) * 100",
           "hide": false,
           "instant": false,
-          "legendFormat": "SUM(Boot, HighHeels)",
+          "legendFormat": "Cash",
           "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Sales",
-      "transformations": [
+          "refId": "B"
+        },
         {
-          "id": "calculateField",
-          "options": {
-            "mode": "reduceRow",
-            "reduce": {
-              "include": [
-                "Boots",
-                "Loafers",
-                "HighHeels"
-              ],
-              "reducer": "sum"
-            }
-          }
+          "datasource": {
+            "type": "prometheus",
+            "uid": "1111"
+          },
+          "editorMode": "code",
+          "expr": "sum(shoehub_payments{CountryCode=\"$country\", PaymentMethod=\"Paypal\"} ) / sum(shoehub_payments{CountryCode=\"$country\"} ) * 100",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "PayPal",
+          "range": true,
+          "refId": "C"
         }
       ],
+      "title": "$country 5퍼센트 이하 확인용",
       "type": "timeseries"
     },
     {
@@ -475,11 +445,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "default": true,
-        "uid": "1111",
-        "type": "prometheus"
-      },
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -539,6 +505,137 @@
         "h": 8,
         "w": 12,
         "x": 0,
+        "y": 17
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "1111"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "rate(shoehub_sales{ShoeType=~\"HighHeels|Boots|Loafers\"}[5m])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{ShoeType}}",
+          "range": true,
+          "refId": "B",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "1111"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(shoehub_sales{ShoeType=~\"Boots|HighHeels\"}[5m])) by (instance, job)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "SUM(Boot, HighHeels)",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Sales",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "Boots",
+                "Loafers",
+                "HighHeels"
+              ],
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "prometheus",
+        "uid": "1111"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
         "y": 17
       },
       "id": 5,
@@ -635,8 +732,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -719,7 +815,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "US",
           "value": "US"
         },
@@ -760,6 +856,10 @@
             "$__all"
           ]
         },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "1111"
+        },
         "definition": "label_values(shoehub_payments{PaymentMethod=\"Card\"}, CountryCode)",
         "hide": 0,
         "includeAll": true,
@@ -770,6 +870,34 @@
         "query": {
           "qryType": 5,
           "query": "label_values(shoehub_payments{PaymentMethod=\"Card\"}, CountryCode)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Card",
+          "value": "Card"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "1111"
+        },
+        "definition": "label_values(shoehub_payments, PaymentMethod)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "PaymentMethod",
+        "multi": true,
+        "name": "paymentMethod",
+        "options": [],
+        "query": {
+          "qryType": 5,
+          "query": "label_values(shoehub_payments, PaymentMethod)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -788,6 +916,6 @@
   "timezone": "browser",
   "title": "TEST_DASHBOARD",
   "uid": "ee1b1kz4kzcw0f",
-  "version": 15,
+  "version": 11,
   "weekStart": ""
 }
