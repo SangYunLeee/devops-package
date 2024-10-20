@@ -10,3 +10,8 @@ providers:
     allowUiUpdates: true
     options:
       path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: true
+
+folders:
+  - name: 'MyFolder'
+    uid: 'my-folder'
