@@ -53,3 +53,29 @@ services:
     container_name: test-server
     ports:
       - 8000:8080
+
+  # 로그 DATA 저장소
+  loki:
+    image: grafana/loki:2.9.2
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+
+  # 로그 DATA 수집기
+  promtail:
+    image: grafana/promtail:2.9.2
+    container_name: promtail
+    volumes:
+      - ./promtail/yaml/config.yml:/etc/promtail/config.yml
+      - /var/log:/var/log
+      - ./local_home/flog_data:/logs
+    command: -config.file=/etc/promtail/config.yml
+
+  # dummy 로그 출력용
+  flog:
+    image: mingrammer/flog
+    container_name: flog
+    command: -f json -o '/var/log/dump.log' -d 5s -l -t log -w
+    volumes:
+      - ./local_home/flog_data:/var/log
