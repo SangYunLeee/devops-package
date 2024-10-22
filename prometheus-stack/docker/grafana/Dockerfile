@@ -10,7 +10,7 @@ ENV GF_AUTH_ANONYMOUS_ORG_ROLE "Admin"
 # ENV GF_INSTALL_PLUGINS="<list of plugins seperated by ,"
 
 # Add provisioning
-# ADD ./provisioning /etc/grafana/provisioning
+ADD ./provisioning /etc/grafana/provisioning
 # Add configuration file
 # ADD ./grafana.ini /etc/grafana/grafana.ini
 # Add dashboard json files
