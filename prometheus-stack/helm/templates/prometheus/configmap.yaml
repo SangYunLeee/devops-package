@@ -27,6 +27,19 @@ data:
       - job_name: 'kube-state-metrics'
         static_configs:
           - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']
+      - job_name: 'ingress-nginx'
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+                names:
+                  - ingress-nginx
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_endpoints_name, __meta_kubernetes_endpoint_port_name]
+          regex: 'ingress-nginx-controller-metrics;metrics'
+          action: keep
+        - source_labels: [__meta_kubernetes_pod_node_name]
+          action: replace
+          target_label: nodename
     rule_files:
       - /etc/prometheus/alert.rules.yml
 
