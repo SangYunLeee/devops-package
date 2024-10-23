@@ -36,7 +36,6 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "prometheus",
         "uid": "1111"
       },
@@ -216,7 +215,6 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "prometheus",
         "uid": "1111"
       },
@@ -573,7 +571,6 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "prometheus",
         "uid": "1111"
       },

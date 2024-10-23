@@ -34,7 +34,7 @@ services:
 
   # https://github.com/Einsteinish/Docker-Compose-Prometheus-and-Grafana
   grafana:
-    image: sororiri/grafana:0.0.1
+    image: sororiri/grafana:0.0.4
     build:
       context: ./grafana
     container_name: grafana

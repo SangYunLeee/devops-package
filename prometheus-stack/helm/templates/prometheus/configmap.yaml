@@ -21,6 +21,9 @@ data:
         - source_labels: [__meta_kubernetes_endpoints_name]
           regex: 'node-exporter'
           action: keep
+        - source_labels: [__meta_kubernetes_pod_node_name]
+          action: replace
+          target_label: nodename
       - job_name: 'kube-state-metrics'
         static_configs:
           - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']

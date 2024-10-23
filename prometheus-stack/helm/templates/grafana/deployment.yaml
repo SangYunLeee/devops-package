@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: grafana
-        image: sororiri/grafana:0.0.1
+        image: sororiri/grafana:0.0.4
         ports:
         - containerPort: 3000
