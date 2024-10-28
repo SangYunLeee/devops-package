@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  ansible:
+    image: sororiri/ansible:0.0.1
+    build:
+      context: .
+    container_name: ansible
+    volumes:
+      - ./playbooks:/ansible/playbooks
+      - ./inventory:/ansible/inventory
+      - ./ansible.cfg:/ansible/ansible.cfg
+
+  target1:
+    image: sororiri/ansible-target:0.0.1
+    build:
+      context: ssh-target
+    container_name: target1
+
+  target2:
+    image: sororiri/ansible-target:0.0.1
+    build:
+      context: ssh-target
+    container_name: target2
+
+  target3:
+    image: sororiri/ansible-target:0.0.1
+    build:
+      context: ssh-target
+    container_name: target3
