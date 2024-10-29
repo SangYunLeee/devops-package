@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  vault:
+    image: vault:latest
+    container_name: vault
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+    ports:
+      - "8200:8200"
+    cap_add:
+      - IPC_LOCK
+    command: "vault server -dev -dev-root-token-id=root"
+    volumes:
+      - ./vault/data:/vault/file
+      - ./scripts:/docker-entrypoint-initdb.d  # 초기화 스크립트를 마운트
