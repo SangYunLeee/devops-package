@@ -1,0 +1,28 @@
+---
+- name: NFS 클라이언트 설정
+  hosts: targets
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: NFS 클라이언트 패키지 설치
+      apt:
+        name: nfs-common
+        state: present
+        update_cache: yes
+
+    - name: 모든 마운트 포인트 디렉토리 생성
+      file:
+        path: "/mnt/{{ hostvars[item]['ansible_host'] }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ groups['targets'] }}"
+
+    - name: NFS 마운트 설정
+      mount:
+        path: "/mnt/{{ hostvars[item]['ansible_host'] }}"
+        src: "{{ hostvars[item]['ansible_host'] }}:/nfs/share"
+        fstype: nfs
+        opts: defaults
+        state: mounted
+      loop: "{{ groups['targets'] }}"
