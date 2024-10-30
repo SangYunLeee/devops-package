@@ -5,6 +5,16 @@
   gather_facts: true
 
   tasks:
+    - name: hosts 파일에 클러스터 노드 추가
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+        state: present
+      loop:
+        - "192.168.0.106   m1"
+        - "192.168.0.169   m2"
+        - "192.168.0.114   m3"
+
     - name: NFS 클라이언트 패키지 설치
       apt:
         name: nfs-common
@@ -15,7 +25,7 @@
       file:
         path: "/mnt/{{ hostvars[item]['ansible_host'] }}"
         state: directory
-        mode: '0755'
+        mode: '0777'
       loop: "{{ groups['targets'] }}"
 
     - name: NFS 마운트 설정
