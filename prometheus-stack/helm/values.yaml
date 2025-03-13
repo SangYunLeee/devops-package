@@ -1,0 +1,5 @@
+prometheus:
+  image:
+    repository: prom/prometheus
+    tag: latest
+  port: 9090

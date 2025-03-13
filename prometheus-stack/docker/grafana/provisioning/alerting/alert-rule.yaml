@@ -91,3 +91,94 @@ groups:
           labels:
             "": ""
           isPaused: false
+    - orgId: 1
+      name: dooly-world
+      folder: Dooly.World
+      interval: 1m
+      rules:
+        - uid: cefp0rxy64nwga
+          title: CPU_usage_percent_warning
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: "1111"
+              model:
+                disableTextWrap: false
+                editorMode: code
+                expr: (((count(count(node_cpu_seconds_total{instance="192.168.234.207:9100",job=~"node-exporter"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance="192.168.234.207:9100",job=~"node-exporter"}[5m])))) * 100) / count(count(node_cpu_seconds_total{instance="192.168.234.207:9100",job=~"node-exporter"}) by (cpu))
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                useBackend: false
+            - refId: B
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 30
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: NoData
+          execErrState: Error
+          for: 0s
+          annotations: {}
+          labels: {}
+          isPaused: false
+          notification_settings:
+            receiver: ontact_slack
