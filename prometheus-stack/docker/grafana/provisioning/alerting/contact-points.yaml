@@ -1,0 +1,11 @@
+apiVersion: 1
+contactPoints:
+    - orgId: 1
+      name: ontact_slack
+      receivers:
+        - uid: aefp06goaq0oxc
+          type: slack
+          settings:
+            recipient: monitoring
+            token: xoxb-2203261620950-8081598329207-*****
+          disableResolveMessage: false
