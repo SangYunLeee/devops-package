@@ -63,7 +63,7 @@ loadbalancer_apiserver_healthcheck_port: 8081
 ## Some problems may occur when downloading files over https proxy due to ansible bug
 ## https://github.com/ansible/ansible/issues/32750. Set this variable to False to disable
 ## SSL validation of get_url module. Note that kubespray will still be performing checksum validation.
-# download_validate_certs: False
+download_validate_certs: False
 
 ## If you need exclude all cluster nodes from proxy and other resources, add other resources here.
 # additional_no_proxy: ""
@@ -136,7 +136,11 @@ ntp_servers:
   - "3.pool.ntp.org iburst"
 
 ## Used to control no_log attribute
-unsafe_show_logs: false
+unsafe_show_logs: true
 
 ## If enabled it will allow kubespray to attempt setup even if the distribution is not supported. For unsupported distributions this can lead to unexpected failures in some cases.
 allow_unsupported_distribution_setup: false
+
+
+# 다운로드 캐시를 유지용
+download_keep_remote_cache: true

@@ -1,6 +1,6 @@
 services:
   kubespray:
-    image: quay.io/kubespray/kubespray:v2.28.0
+    image: quay.io/kubespray/kubespray:v2.28.1
     platform: linux/amd64
     container_name: kubespray
     stdin_open: true
