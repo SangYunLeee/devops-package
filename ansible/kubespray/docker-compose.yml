@@ -1,0 +1,12 @@
+services:
+  kubespray:
+    image: quay.io/kubespray/kubespray:v2.28.0
+    platform: linux/amd64
+    container_name: kubespray
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./inventory/mycluster:/kubespray/inventory/mycluster
+      - ~/.ssh:/root/.ssh
+    working_dir: /kubespray
+    command: bash
