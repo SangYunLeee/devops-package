@@ -19,3 +19,10 @@ ansible-playbook -i inventory/mycluster/inventory.ini cluster.yml -b -v
 ```bash
 ansible-playbook -i inventory/mycluster/inventory.ini reset.yml -b -v
 ```
+
+
+참고 사이트:
+- https://hokka1179.tistory.com/22
+- https://readthedocs.vinczejanos.info/Blog/2023/04/21/install-kube-tailscale/#install-kubernetes-cluster-behind-tailscale-vpn
+- https://kubespray.io/#/
+- https://github.com/kubernetes-sigs/kubespray/tree/release-2.28
