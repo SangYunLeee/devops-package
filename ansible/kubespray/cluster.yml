@@ -1,0 +1,6 @@
+---
+- name: Install Kubernetes
+  ansible.builtin.import_playbook: playbooks/cluster.yml
+
+- name: Install zsh
+  ansible.builtin.import_playbook: custom_playbooks/install_zsh.yml

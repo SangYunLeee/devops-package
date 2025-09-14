@@ -1,0 +1,17 @@
+- name: Create user 'node'
+  hosts: all
+  become: yes
+  tasks:
+    - name: Create user 'node'
+      ansible.builtin.user:
+        name: node
+        shell: /bin/bash
+        groups: sudo
+        state: present
+        create_home: yes
+
+    - name: Set authorized key for 'node'
+      ansible.posix.authorized_key:
+        user: node
+        state: present
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"

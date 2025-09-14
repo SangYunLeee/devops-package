@@ -1,0 +1,10 @@
+- name: Install zsh
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
+        state: present
+      become: yes

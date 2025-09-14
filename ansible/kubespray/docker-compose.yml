@@ -8,5 +8,6 @@ services:
     volumes:
       - ./inventory:/kubespray/inventory/mycluster
       - ~/.ssh:/root/.ssh
+      - ./playbooks:/kubespray/custom_playbooks
     working_dir: /kubespray
     command: bash

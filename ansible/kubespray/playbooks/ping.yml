@@ -1,6 +1,6 @@
 ---
 - name: Ping Test
-  hosts: kube_control_plane
+  hosts: all
   gather_facts: false
 
   tasks:
