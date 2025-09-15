@@ -12,12 +12,13 @@ docker compose exec kubespray bash
 
 ## K8S 설치
 ```bash
-ansible-playbook -i inventory/mycluster/inventory.ini cluster.yml -b -v
+ansible-playbook -b -v -i inventory/mycluster/inventory.ini cluster.yml 
+ansible-playbook -b -v -i  inventory/mycluster/inventory.ini custom_playbooks/install_zsh.yml
 ```
 
 ## K8S 제거
 ```bash
-ansible-playbook -i inventory/mycluster/inventory.ini reset.yml -b -v
+ansible-playbook  -b -v -i inventory/mycluster/inventory.ini reset.yml
 ```
 
 

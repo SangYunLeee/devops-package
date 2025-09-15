@@ -41,3 +41,7 @@
     - name: Including task custom_plugins.yml
       include_tasks: tasks/custom_plugins.yml
       when: ohmyzsh_default_install
+
+    - name: Including task custom_themes.yml
+      include_tasks: tasks/custom_themes.yml
+      when: ohmyzsh_default_install

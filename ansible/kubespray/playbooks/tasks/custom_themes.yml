@@ -35,4 +35,14 @@
   loop_control:
     loop_var: theme
 
+- name: Write .p10k.zsh file from template
+  become: yes
+  copy:
+    src: 'p10k.zsh'
+    dest: '/root/.p10k.zsh'
+    backup: yes
+    owner: "root"
+    group: "root"
+    mode: '0640'
+  when: ohmyzsh_default_custom_themes is defined
 ...

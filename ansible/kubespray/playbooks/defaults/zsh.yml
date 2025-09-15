@@ -2,7 +2,7 @@
 
 ohmyzsh_default_install: true
 
-ohmyzsh_default_theme: robbyrussell
+ohmyzsh_default_theme: powerlevel10k/powerlevel10k
 ohmyzsh_default_theme_random_candidates:
   - agnoster
   - robbyrussell
@@ -10,7 +10,7 @@ ohmyzsh_default_case_sensitive: false
 ohmyzsh_default_hyphen_insensitive: false
 ohmyzsh_default_disable_auto_update: false
 ohmyzsh_default_disable_update_prompt: false
-ohmyzsh_default_update_zsh_days: 13
+ohmyzsh_default_update_zsh_days: 30
 ohmyzsh_default_disable_magic_functions: false
 ohmyzsh_default_disable_ls_colors: false
 ohmyzsh_default_disable_auto_title: false
@@ -67,8 +67,8 @@ ohmyzsh_default_custom_plugins:
     version: master
 
 ohmyzsh_default_custom_themes:
-  - name: powerlevel9k
-    repo: https://github.com/bhilburn/powerlevel9k.git
+  - name: powerlevel10k
+    repo: https://github.com/romkatv/powerlevel10k.git
     update: true
     version: master
 
