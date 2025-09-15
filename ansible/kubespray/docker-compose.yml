@@ -9,5 +9,6 @@ services:
       - ./inventory:/kubespray/inventory/mycluster
       - ~/.ssh:/root/.ssh
       - ./playbooks:/kubespray/custom_playbooks
+      - ./templates:/kubespray/templates
     working_dir: /kubespray
     command: bash

@@ -1,10 +1,43 @@
 - name: Install zsh
   hosts: all
   gather_facts: false
+  vars_files:
+    - defaults/zsh.yml
 
   tasks:
-    - name: Install zsh
-      ansible.builtin.package:
-        name: zsh
+    - name: Install dependencies
+      become: true
+      apt:
+        pkg:
+          - git
+          - zsh
         state: present
+        update_cache: yes
+
+    - name: Install Oh-My-zsh
+      git:
+        repo: "https://github.com/robbyrussell/oh-my-zsh"
+        dest: "/root/.oh-my-zsh"
+        version: master
+        update: no
+
+    - name: Set default shell for users
       become: yes
+      user:
+        name: 'root'
+        shell: /bin/zsh
+
+    - name: Write .zshrc file from template
+      become: yes
+      template:
+        src: 'zshrc.j2'
+        dest: '/root/.zshrc'
+        backup: yes
+        owner: "root"
+        group: "root"
+        mode: '0640'
+      when: ohmyzsh_default_install
+
+    - name: Including task custom_plugins.yml
+      include_tasks: tasks/custom_plugins.yml
+      when: ohmyzsh_default_install
