@@ -1,0 +1,41 @@
+- name: Install k9s from deb package
+  hosts: kube_control_plane
+  become: yes
+  vars:
+    k9s_version: "v0.50.9"
+    k9s_arch: "amd64"
+
+  tasks:
+    - name: Download k9s deb package
+      get_url:
+        url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_linux_{{ k9s_arch }}.deb"
+        dest: "/tmp/k9s_linux_{{ k9s_arch }}.deb"
+        mode: '0644'
+
+    - name: Install k9s deb package
+      apt:
+        deb: "/tmp/k9s_linux_{{ k9s_arch }}.deb"
+        state: present
+
+    - name: Verify k9s installation
+      command: k9s version
+      register: k9s_version_output
+      changed_when: false
+
+    - name: Display k9s version
+      debug:
+        msg: "k9s installed successfully: {{ k9s_version_output.stdout }}"
+
+    - name: Clean up deb file
+      file:
+        path: "/tmp/k9s_linux_{{ k9s_arch }}.deb"
+        state: absent
+
+    - name: Show installed package info
+      command: dpkg -l | grep k9s
+      register: k9s_package_info
+      changed_when: false
+
+    - name: Display package info
+      debug:
+        msg: "Package info: {{ k9s_package_info.stdout }}"
