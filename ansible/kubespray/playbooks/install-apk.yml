@@ -1,0 +1,60 @@
+---
+- name: Install Docker and Git
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Check if apt is locked
+      become: true
+      shell: |
+        if fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; then
+          echo "locked"
+        else
+          echo "unlocked"
+        fi
+      register: apt_lock_status
+      changed_when: false
+
+    - name: Wait for automatic updates to finish
+      become: true
+      shell: |
+        while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+          echo "Waiting for other apt process to finish..."
+          sleep 10
+        done
+      when: apt_lock_status.stdout == "locked"
+      changed_when: false
+
+    - name: Clean apt cache
+      become: true
+      shell: |
+        apt-get clean
+        rm -rf /var/lib/apt/lists/*
+        mkdir -p /var/lib/apt/lists/partial
+      ignore_errors: true
+
+    - name: Update apt cache with timeout
+      become: true
+      shell: |
+        timeout 300 apt-get update || true
+      register: apt_update_result
+      changed_when: false
+
+    - name: Install packages one by one
+      become: true
+      apt:
+        name: "{{ item }}"
+        state: present
+        force_apt_get: yes
+      loop:
+        - git
+        - docker.io
+        - docker-compose
+      retries: 2
+      delay: 5
+      ignore_errors: true
+
+    - name: Alternative installation using shell
+      become: true
+      shell: |
+        DEBIAN_FRONTEND=noninteractive apt-get install -y git docker.io docker-compose
