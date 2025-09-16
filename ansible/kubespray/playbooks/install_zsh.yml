@@ -38,6 +38,28 @@
         mode: '0640'
       when: ohmyzsh_default_install
 
+    - name: Write .zsh_custom.zsh file from template
+      become: yes
+      copy:
+        src: 'zsh_custom.zsh'
+        dest: '/root/.zsh_custom.zsh'
+        backup: yes
+        owner: "root"
+        group: "root"
+        mode: '0640'
+      when: ohmyzsh_default_install
+
+    - name: Write .gitconfig file from template
+      become: yes
+      copy:
+        src: 'gitconfig'
+        dest: '/root/.gitconfig'
+        backup: yes
+        owner: "root"
+        group: "root"
+        mode: '0640'
+      when: ohmyzsh_default_install
+
     - name: Including task custom_plugins.yml
       include_tasks: tasks/custom_plugins.yml
       when: ohmyzsh_default_install

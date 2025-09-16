@@ -1,0 +1,7 @@
+[alias]
+    st = status
+    co = checkout
+    cm = commit
+    lg = log --oneline --decorate --graph --all
+    last = log -1 HEAD
+
