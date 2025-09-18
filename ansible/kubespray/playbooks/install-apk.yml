@@ -58,3 +58,34 @@
       become: true
       shell: |
         DEBIAN_FRONTEND=noninteractive apt-get install -y git docker.io docker-compose
+      when: apt_update_result is failed
+      ignore_errors: true
+
+    - name: Start and enable Docker service
+      become: true
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+      ignore_errors: true
+
+    - name: Add user to docker group
+      become: true
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+      when: ansible_user is defined
+      ignore_errors: true
+
+    - name: Verify installations
+      shell: |
+        echo "Git: $(git --version 2>/dev/null || echo 'Not installed')"
+        echo "Docker: $(docker --version 2>/dev/null || echo 'Not installed')"
+        echo "Docker Compose: $(docker-compose --version 2>/dev/null || echo 'Not installed')"
+      register: installation_status
+      changed_when: false
+
+    - name: Show installation status
+      debug:
+        msg: "{{ installation_status.stdout_lines }}"

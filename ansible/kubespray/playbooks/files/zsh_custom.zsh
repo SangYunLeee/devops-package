@@ -5,8 +5,7 @@ alias g='git'
 
 alias dc='docker compose'
 
-
-
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # kubectl column
 kncolumn() {
