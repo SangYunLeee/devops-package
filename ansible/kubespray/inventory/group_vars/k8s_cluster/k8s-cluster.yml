@@ -164,7 +164,10 @@ dns_mode: coredns
 # Set manual server if using a custom cluster DNS server
 # manual_dns_server: 10.x.x.x
 # Enable nodelocal dns cache
-enable_nodelocaldns: true
+# 이 클러스터는 nodelocaldns DaemonSet을 배포하지 않고 kube-dns(10.96.0.10)를 직접 사용한다.
+# true로 두면 kubelet의 clusterDNS만 nodelocaldns_ip(169.254.25.10)로 바뀌어
+# 응답할 주체가 없는 주소를 pod에 주입하게 되므로 DNS가 전부 타임아웃된다.
+enable_nodelocaldns: false
 enable_nodelocaldns_secondary: false
 nodelocaldns_ip: 169.254.25.10
 nodelocaldns_health_port: 9254
